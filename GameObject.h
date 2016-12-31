@@ -3,6 +3,8 @@
 
 #include "colors.hpp"
 
+//class GameObjectManager;
+
 class GameObject
 {
 private:
@@ -43,6 +45,10 @@ public:
     char getPixel(int r, int c);
     float getZOrder();
     ColorType getColor();
+    int getLeft();
+    int getRight();
+    int getTop();
+    int getBottom();
 
     void initialise();
     void update();

@@ -13,18 +13,18 @@ void FileReader::readFileAsImage(char* fileName, char*** imageArray, int& imageW
     {
         while((c = getc(file)) != EOF)
         {
-            std::cout << "LN: " << currentLine << " COL: " << currentColumn << " CH: " << (char)c << "\n";
+            //std::cout << "LN: " << currentLine << " COL: " << currentColumn << " CH: " << (char)c << "\n";
             if(c != (int)'\n')
             {
                 if(currentLine == 0)
                 {
                     imageWidth = c - '0';
-                    std::cout << "WIDTH: " << imageWidth << "\n";
+                    //std::cout << "WIDTH: " << imageWidth << "\n";
                 }
                 else if(currentLine == 1)
                 {
                     imageHeight = c - '0';
-                    std::cout << "HEIGHT: " << imageHeight << "\n";
+                    //std::cout << "HEIGHT: " << imageHeight << "\n";
                     (*imageArray) = new char*[imageHeight];
                 }
                 else
@@ -43,7 +43,7 @@ void FileReader::readFileAsImage(char* fileName, char*** imageArray, int& imageW
                     //add any empty columns at the end of the image
                     for(int i = currentColumn; i < imageWidth; ++i)
                     {
-                        (*imageArray)[currentLine - bufferLines][i] = '*';
+                        (*imageArray)[currentLine - bufferLines][i] = ' ';
                     }
                 }
                 currentLine++;

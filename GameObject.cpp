@@ -1,10 +1,13 @@
 
 #include "GameObject.h"
 #include "FileReader.h"
+#include "GameObjectManager.h"
 
 GameObject::GameObject()
 {
     this->initialise();
+
+    //GameObjectManager::addObject(this);
 }
 
 GameObject::GameObject(char* fileName)
@@ -12,6 +15,8 @@ GameObject::GameObject(char* fileName)
     this->initialise();
 
     FileReader::readFileAsImage(fileName, &this->image, this->width, this->height);
+
+    GameObjectManager::addObject(this);
 }
 
 GameObject::~GameObject()
@@ -101,6 +106,10 @@ int GameObject::getId(){ return this->id; }
 char GameObject::getPixel(int r, int c) { return this->image[r][c]; }
 float GameObject::getZOrder(){ return this->zOrder; }
 ColorType GameObject::getColor(){ return this->color; }
+int GameObject::getLeft(){ return this->posX; }
+int GameObject::getRight(){ return this->posX + this->width; }
+int GameObject::getTop(){ return this->posY; }
+int GameObject::getBottom(){ return this->posY + this->height; }
 
 void GameObject::setPos(int x, int y)
 {

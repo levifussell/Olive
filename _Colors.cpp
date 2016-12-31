@@ -22,7 +22,7 @@ ColorType _Colors::toType(char* text)
 
 }
 
-char* _Colors::toString(ColorType type)
+char* _Colors::toStringForeground(ColorType type)
 {
     switch(type)
     {
@@ -41,6 +41,29 @@ char* _Colors::toString(ColorType type)
         case WHITE:
         default:
             return F_WHITE;
+
+    }
+}
+
+char* _Colors::toStringBackground(ColorType type)
+{
+    switch(type)
+    {
+        case RED:
+            return B_RED;
+        case GREEN:
+            return B_GREEN;
+        case YELLOW:
+            return B_YELLOW;
+        case BLUE:
+            return B_BLUE;
+        case MAGENTA:
+            return B_MAGENTA;
+        case CYAN:
+            return B_CYAN;
+        case WHITE:
+        default:
+            return B_WHITE;
 
     }
 }

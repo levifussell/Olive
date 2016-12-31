@@ -7,6 +7,19 @@ template<typename T> struct Node
 {
     T data;
     Node* next;
+
+    //~Node()
+    //{
+        //try
+        //{
+            //if(data)
+                //delete data;
+        //}
+        //catch(const char* e)
+        //{
+
+        //}
+    //}
 };
 
 template<typename T> class LinkedList
@@ -20,8 +33,9 @@ public:
 
     void push_back(T item);
     void insert(T item, int index);
-    T getAtIndex(int index);
+    T getAtIndex(unsigned int index);
     T pop_head();
+    void clear();
 
     int getLength();
 
@@ -37,20 +51,29 @@ template<typename T> LinkedList<T>::LinkedList()
 
 template<typename T> LinkedList<T>::~LinkedList()
 {
-    Node<T>* n = this->head;
-    Node<T>* next = 0;
-
-    while(n)
-    {
-        next = n->next;
-        delete n;
-        n = next;
-    }
-
-    this->head = 0;
+    this->clear();
 }
 
-template<typename T> T LinkedList<T>::getAtIndex(int index)
+template<typename T> void LinkedList<T>::clear()
+{
+    if(this->length > 0)
+    {
+        Node<T>* n = this->head;
+        Node<T>* next = 0;
+
+        while(n)
+        {
+            next = n->next;
+            delete n;
+            n = next;
+        }
+
+        this->head = 0;
+        this->length = 0;
+    }
+}
+
+template<typename T> T LinkedList<T>::getAtIndex(unsigned int index)
 {
     if(index >= this->length)
         return 0;

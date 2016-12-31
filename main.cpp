@@ -1,115 +1,118 @@
 
 #include<iostream>
+#include<stdio.h>
+#include<sys/time.h>
+//#include<thread>
+#include<pthread.h>
 
 #include "GameObject.h"
 /*#include "LinkedList.h"*/
 #include "ScreenBuffer.h"
+#include "GameObjectManager.h"
+#include "InputHandler.h"
 
-const int screenWidth = 40;
-const int screenHeight = 20;
+const int screenWidth = 140;
+const int screenHeight = 40;
 
 char screenBuffer[screenHeight][screenWidth];
 
-ScreenBuffer screen = ScreenBuffer(screenWidth, screenHeight);
+ScreenBuffer screen = ScreenBuffer(screenWidth, screenHeight, RED);
 
-void clearScreen();
-void addToBuffer(GameObject);
-void draw();
+GameObject* obj;
+GameObject* block;
+GameObject* block2;
+
+void Initialise();
+void Update();
+void DeInitialise();
+float timedifference_msec(struct timeval t0, struct timeval t1);
+void* getInput(void*);
+
+float timedifference_msec(struct timeval t0, struct timeval t1)
+{
+    return (t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) / 1000.0f;
+}
+
+void* getInput(void*) //param is a dummy pointer
+{
+    while(true)
+    {
+        char c = InputHandler::getch();
+        std::cout << c;
+    }
+}
 
 int main()
 {
-    /*clearScreen();*/
-    /*//draw();*/
-    /*std::cout << "HELLO\n";*/
-    GameObject obj = GameObject("imageFiles/test1.txt");
-    obj.setZOrder(0);
-    obj.setPos(5, 5);
+    pthread_t t1;
+    pthread_create(&t1, 0, &getInput, 0);
 
-    GameObject block = GameObject("imageFiles/block1.txt");
-    block.setPos(6, 6);
-    block.setZOrder(1);
+    Initialise();
 
-    screen.addToBuffer(obj);
-    screen.addToBuffer(block);
+    double fps = 60/1;
+    struct timeval lastUpdateTime, currentTime;
+    gettimeofday(&lastUpdateTime, 0);
 
-    screen.draw();
+    while(true)
+    {
+        gettimeofday(&currentTime, 0);
+        float elapsedMs = timedifference_msec(lastUpdateTime, currentTime);
 
-    /*char** imgData = obj.getImage();*/
-
-    std::cout << obj.getWidth() << "\n" << obj.getHeight() << "\n";
-    /*std::cout << sizeof(imgData) / sizeof(char) << "\n";*/
-    std::cout << "DT:" << obj.getId() << "\n";
-    /*if(!imgData)*/
-        /*std::cout << "NULLL\n";*/
-    /*for(int r = 0; r < obj.getHeight(); ++r)*/
-    /*{*/
-        /*for(int c = 0; c < obj.getWidth(); ++c)*/
-        /*{*/
-            /*std::cout << imgData[r][c];*/
-        /*}*/
-        /*std::cout << "\n";*/
-    /*}*/
-
-    /*addToBuffer(obj);*/
-    /*draw();*/
-
-    /*LinkedList<int> l = LinkedList<int>();*/
-    /*l.insert(5000, 0);*/
-    /*l.push_back(10);*/
-    /*l.push_back(20);*/
-    /*[>l.print();<]*/
-    /*l.insert(12, 2);*/
-    /*[>int val = l.pop_head();<]*/
-    /*[>l.pop_head();<]*/
-    /*l.print();*/
-    /*[>std::cout << l.getAtIndex(1) << "\n";<]*/
-    /*[>l.pop_head();<]*/
-    /*l.print();*/
+        if(elapsedMs > 1000.0f * (1/fps))
+        {
+            gettimeofday(&lastUpdateTime, 0);
+            Update();
+        }
+    }
 
     return 0;
 }
 
-void clearScreen()
+void Initialise()
 {
-    for(int r = 0; r < screenHeight; ++r)
-    {
-        for(int c = 0; c < screenWidth; ++c)
-        {
-            screenBuffer[r][c] = '#';
-        }
-    }
+    GameObjectManager::initialise();
+
+    obj = new GameObject("imageFiles/test1.txt");
+    obj->setZOrder(0);
+    obj->setPos(5, 2);
+    obj->setZOrder(0);
+
+    block = new GameObject("imageFiles/block1.txt");
+    block->setPos(5, 2);
+    block->setZOrder(1);
+
+    block2 = new GameObject("imageFiles/block1.txt");
+    block2->setPos(8, 4);
 }
+int speedX = -1;
+int speedY = 1;
 
-void addToBuffer(GameObject obj)
+void Update()
 {
-    int startX = obj.getPosX();
-    int startY = obj.getPosY();
-    std::cout << startX << "," << startY << "\n";
-    for(int r = 0; r < obj.getHeight(); ++r)
-    {
-        for(int c = 0; c < obj.getWidth(); ++c)
-        {
-            int addX = startX + c;
-            int addY = startY + r;
-            if(addX < screenWidth && addY < screenHeight && addX >= 0 && addY >= 0)
-            {
-                char objPixel = obj.getPixel(r, c);
-                if(objPixel != ' ')
-                    screenBuffer[startY + r][startX + c] = obj.getPixel(r, c);
-            }
-        }
-    }
-}
+    screen.clearBuffer();
+    obj->setPos(obj->getPosX() + speedX, obj->getPosY() + speedY);
+    //obj.setPos(obj.getPosX() + 1, obj.getPosY());
+    //
+    //
+    //
+    if(obj->getRight() >= screen.getScreenWidth())
+        speedX *= -1;
+    if(obj->getLeft() <= 0)
+        speedX *= -1;
+    if(obj->getBottom() >= screen.getScreenHeight())
+        speedY *= -1;
+    if(obj->getTop() <= 0)
+        speedY *= -1;
 
-void draw()
-{
-    for(int r = 0; r < screenHeight; ++r)
-    {
-        for(int c = 0; c < screenWidth; ++c)
-        {
-            std::cout << screenBuffer[r][c];
-        }
+    //screen.addToBuffer(block);
+    //screen.addToBuffer(obj);
+    //screen.addToBuffer(block2);
+    screen.addAllGameObjectsToBuffer();
+    //std::cout << GameObjectManager::getNumObjects();
+    //char c = InputHandler::getch();
+    //std::cout << c;
 
-        std::cout << '\n';
-    }
+    screen.draw();
+
+    std::cout << "\n";
 }
