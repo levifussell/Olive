@@ -1,8 +1,8 @@
 #ifndef PAGE_MANAGER
 #define PAGE_MANAGER
 
-#include "Page.h"
-#include "LinkedList.h"
+#include "../Pages/Page.h"
+#include "../DataStructures/LinkedList.h"
 
 class PageManager
 {

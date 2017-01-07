@@ -1,7 +1,7 @@
 #ifndef _PAGE
 #define _PAGE
 
-#include "GameObjectManager.h"
+#include "../Managers/GameObjectManager.h"
 
 class Page
 {

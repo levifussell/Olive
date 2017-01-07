@@ -1,7 +1,7 @@
 #ifndef GAME_1
 #define GAME_1
 
-#include "Page.h"
+#include "../Pages/Page.h"
 
 class Game1 : public Page
 {

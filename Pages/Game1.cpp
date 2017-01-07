@@ -1,6 +1,6 @@
 #include "Game1.h"
 
-#include "EventHandler.h"
+#include "../Input/EventHandler.h"
 
 GameObject* obj;
 GameObject* block;

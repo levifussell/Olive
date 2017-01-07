@@ -1,8 +1,8 @@
 #include "ScreenBuffer.h"
 
-#include "_Colors.h"
-#include "GameObjectManager.h"
-#include "PageManager.h"
+#include "Colors/_Colors.h"
+#include "../Managers/GameObjectManager.h"
+#include "../Managers/PageManager.h"
 
 #include<iostream>
 #include<stdio.h>

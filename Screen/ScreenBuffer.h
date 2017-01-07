@@ -3,9 +3,9 @@
 
 #include<iostream>
 
-#include "GameObject.h"
-#include "LinkedList.h"
-#include "colors.hpp"
+#include "../Objects/GameObject.h"
+#include "../DataStructures/LinkedList.h"
+#include "Colors/colors.hpp"
 
 class ScreenBuffer
 {

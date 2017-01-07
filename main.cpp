@@ -5,15 +5,15 @@
 //#include<thread>
 #include<pthread.h>
 
-#include "GameObject.h"
+#include "Objects/GameObject.h"
 /*#include "LinkedList.h"*/
-#include "ScreenBuffer.h"
+#include "Screen/ScreenBuffer.h"
 //#include "GameObjectManager.h"
-#include "Page.h"
-#include "Game1.h"
-#include "PageManager.h"
-#include "InputHandler.h"
-#include "EventHandler.h"
+#include "Pages/Page.h"
+#include "Pages/Game1.h"
+#include "Managers/PageManager.h"
+#include "Input/InputHandler.h"
+#include "Input/EventHandler.h"
 
 const int screenWidth = 140;
 const int screenHeight = 40;

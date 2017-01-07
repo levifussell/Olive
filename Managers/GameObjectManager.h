@@ -1,8 +1,8 @@
 #ifndef GAME_OBJECT_MANAGER
 #define GAME_OBJECT_MANAGER
 
-#include "LinkedList.h"
-#include "GameObject.h"
+#include "../DataStructures/LinkedList.h"
+#include "../Objects/GameObject.h"
 
 //class GameObject;
 

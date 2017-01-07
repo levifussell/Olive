@@ -1,8 +1,8 @@
-
 #include "GameObject.h"
-#include "FileReader.h"
-#include "PageManager.h"
-#include "GameObjectManager.h"
+
+#include "../Input/FileReader.h"
+#include "../Managers/PageManager.h"
+#include "../Managers/GameObjectManager.h"
 #include<string.h>
 
 GameObject::GameObject()
