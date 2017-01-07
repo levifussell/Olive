@@ -3,19 +3,19 @@
 
 ColorType _Colors::toType(char* text)
 {
-    if(strcmp(text, "RED"))
+    if(strcmp(text, "RED") == 0)
         return RED;
-    else if(strcmp(text, "GREEN"))
+    else if(strcmp(text, "GREEN") == 0)
         return GREEN;
-    else if(strcmp(text, "YELLOW"))
+    else if(strcmp(text, "YELLOW") == 0)
         return YELLOW;
-    else if(strcmp(text, "BLUE"))
+    else if(strcmp(text, "BLUE") == 0)
         return BLUE;
-    else if(strcmp(text, "MAGENTA"))
+    else if(strcmp(text, "MAGENTA") == 0)
         return MAGENTA;
-    else if(strcmp(text, "CYAN"))
+    else if(strcmp(text, "CYAN") == 0)
         return CYAN;
-    else if(strcmp(text, "WHITE"))
+    else if(strcmp(text, "WHITE") == 0)
         return WHITE;
     else
         return WHITE;

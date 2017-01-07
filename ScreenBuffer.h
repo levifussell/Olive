@@ -19,6 +19,7 @@ private:
     ColorType** screenColor;
     ColorType** screenColorOld;
     LinkedList<GameObject> objectBufferList;
+    bool changeInBuffer;
 public:
     ScreenBuffer(int width, int height, ColorType backgroundColor);
     ~ScreenBuffer();
@@ -33,6 +34,7 @@ public:
 
     int getScreenWidth();
     int getScreenHeight();
+    bool getChangeInBuffer();
 };
 
 #endif

@@ -1,7 +1,9 @@
 
 #include "GameObject.h"
 #include "FileReader.h"
+#include "PageManager.h"
 #include "GameObjectManager.h"
+#include<string.h>
 
 GameObject::GameObject()
 {
@@ -14,9 +16,26 @@ GameObject::GameObject(char* fileName)
 {
     this->initialise();
 
-    FileReader::readFileAsImage(fileName, &this->image, this->width, this->height);
+    FileReader::readFileAsImage(fileName, &this->image, this->width, this->height, this->color);
 
-    GameObjectManager::addObject(this);
+    //std::cout << "COL:" << _Colors::toType("MAGENTA") << "\n";
+    //std::cout << "STRRERERE: " << (bool)strcmp("MMMAGENTA", "MAGENTA") << "\n";
+
+    //add the object to the current Page
+    // TODO: make the page specifiable in a constructor
+    Page* currentPage = PageManager::getCurrentPage();
+
+    if(currentPage)
+    {
+        GameObjectManager* gameObjectManager = currentPage->getGameObjectManager();
+
+        if(gameObjectManager)
+        {
+            gameObjectManager->addObject(this);
+        }
+    }
+
+    //GameObjectManager::addObject(this);
 }
 
 GameObject::~GameObject()

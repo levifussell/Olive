@@ -1,3 +1,5 @@
+#include "LinkedList.h"
+
 enum EventType
 {
     KEY
@@ -12,9 +14,15 @@ struct Event
 class EventHandler
 {
 private:
-    static void QueueEvent(Event e);
+    static LinkedList<Event*> eventList;
+    static void queueEvent(Event* e);
 public:
-    static void ThreadUpdate();
-    static void Update();
-    static void GetNextEvent();
+    static void initialise();
+    static void deInitialise();
+    static void* threadUpdate(void*);
+    static Event* getNextEvent();
+    static void printEventList();
+
+    static int getNumEvents();
+
 };

@@ -2,6 +2,7 @@
 
 #include "_Colors.h"
 #include "GameObjectManager.h"
+#include "PageManager.h"
 
 #include<iostream>
 #include<stdio.h>
@@ -98,10 +99,22 @@ void ScreenBuffer::addToBuffer(GameObject* object)
 
 void ScreenBuffer::addAllGameObjectsToBuffer()
 {
-    for(int i = 0; i < GameObjectManager::getNumObjects(); ++i)
+    //first get the current page that the game is on
+    Page* currentPage = PageManager::getCurrentPage();
+
+    if(currentPage)
     {
-        this->addToBuffer((GameObjectManager::getObjectByIndex(i)));
+        GameObjectManager* gameObjectManager = currentPage->getGameObjectManager();
+
+        if(gameObjectManager)
+        {
+            for(int i = 0; i < gameObjectManager->getNumObjects(); ++i)
+            {
+                this->addToBuffer((gameObjectManager->getObjectByIndex(i)));
+            }
+        }
     }
+
 }
 
 void ScreenBuffer::clearBuffer()
@@ -150,6 +163,7 @@ void ScreenBuffer::draw()
 
     //draw all characters to the screen that are different between the new screen
     //and the old screen
+    this->changeInBuffer = false; //predetermine no change in the buffer drawing
     for(int r = -1; r < this->height + 1; ++r)
     {
         for(int c = -1; c < this->width + 1; ++c)
@@ -162,8 +176,10 @@ void ScreenBuffer::draw()
             {
                 //check that this character is a NEW character
                 if(this->screen[r][c] != this->screenOld[r][c] ||
-                        this->screenColor[r][c] != this->screenColorOld[r][c])
+                        this->screenColor[r][c] != this->screenColorOld[r][c] ||
+                        (r == 0 && c == 0))
                 {
+                    this->changeInBuffer = true; //if something is drawn, out buffer has changed
                     char* colorToPrintForeground = _Colors::toStringForeground(this->screenColor[r][c]);
                     char* colorToPrintBackground = _Colors::toStringBackground(this->screenColor[r][c]);
 
@@ -198,3 +214,6 @@ void ScreenBuffer::draw()
 
 int ScreenBuffer::getScreenWidth() { return this->width; }
 int ScreenBuffer::getScreenHeight() { return this->height; }
+bool ScreenBuffer::getChangeInBuffer() { return this->changeInBuffer; }
+
+

@@ -2,11 +2,13 @@
 #include<stdlib.h>
 #include<iostream>
 
-void FileReader::readFileAsImage(char* fileName, char*** imageArray, int& imageWidth, int& imageHeight) {
+
+void FileReader::readFileAsImage(char* fileName, char*** imageArray, int& imageWidth, int& imageHeight, ColorType& colorType) {
     int c;
     unsigned int currentLine = 0;
     unsigned int currentColumn = 0;
-    const unsigned int bufferLines = 2;
+    char* colourC = new char[10];
+    const unsigned int bufferLines = 3;
     FILE* file;
     file = fopen(fileName, "r");
     if(file)
@@ -27,6 +29,10 @@ void FileReader::readFileAsImage(char* fileName, char*** imageArray, int& imageW
                     //std::cout << "HEIGHT: " << imageHeight << "\n";
                     (*imageArray) = new char*[imageHeight];
                 }
+                else if(currentLine == 2)
+                {
+                    colourC[currentColumn] = (char)c;
+                }
                 else
                 {
                     unsigned index = currentLine - bufferLines;
@@ -46,8 +52,18 @@ void FileReader::readFileAsImage(char* fileName, char*** imageArray, int& imageW
                         (*imageArray)[currentLine - bufferLines][i] = ' ';
                     }
                 }
+
+                //create colour type if moving off colour line
+                if(currentLine == 2)
+                {
+                    colourC[currentColumn + 1] = '\0';
+                    colorType = _Colors::toType(colourC);
+                    //std::cout << colourC << colorType << "\n";
+                }
+
                 currentLine++;
                 currentColumn = 0;
+
 
                 if(currentLine >= bufferLines && currentLine - bufferLines < imageHeight)
                 {

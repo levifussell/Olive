@@ -8,27 +8,56 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
-void EventHandler::QueueEvent(Event e)
-{
+LinkedList<Event*> EventHandler::eventList;
 
+void EventHandler::initialise()
+{
+    //eventList = LinkedList<Event*>();
 }
 
-void EventHandler::Update()
+void EventHandler::deInitialise()
 {
-    //get the latest input from the keyboard
-    char c = InputHandler::getch();
-
-    //Event e;
-
-    //switch((c = std::getch()))
-    //{
-        //case KEY_UP:
-            //e.data = c;
-            //e.type = KEY;
-    //}
+    eventList.clear();
 }
 
-void EventHandler::GetNextEvent()
+void EventHandler::queueEvent(Event* e)
 {
+    eventList.push_back(e);
+}
 
+void* EventHandler::threadUpdate(void*)
+{
+    while(true)
+    {
+        //get the latest input from the keyboard
+        char c = InputHandler::getch();
+
+        Event* eKey = new Event();
+        eKey->data = c;
+        eKey->type = KEY;
+        queueEvent(eKey);
+        //std::cout << "got event: " << c << "\n";
+    }
+}
+
+Event* EventHandler::getNextEvent()
+{
+    if(eventList.getLength() > 0)
+        return eventList.pop_head();
+    else
+        return 0;
+}
+
+void EventHandler::printEventList()
+{
+    std::cout << "EVENT LIST:";
+    for(int i = 0; i < eventList.getLength(); ++i)
+    {
+        std::cout << (char)eventList.getAtIndex(i)->data;
+    }
+}
+
+int EventHandler::getNumEvents()
+{
+    return eventList.getLength();
 }

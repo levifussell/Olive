@@ -1,6 +1,7 @@
 #ifndef GAME_OBJECT
 #define GAME_OBJECT
 
+#include "_Colors.h"
 #include "colors.hpp"
 
 //class GameObjectManager;

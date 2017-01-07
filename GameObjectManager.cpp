@@ -1,20 +1,26 @@
 #include "GameObjectManager.h"
 
-bool GameObjectManager::isInitialised = false;
-LinkedList<GameObject*> GameObjectManager::gameObjects;
+GameObjectManager::GameObjectManager()
+{
+    this->initialise();
+}
+GameObjectManager::~GameObjectManager()
+{
+    this->deInitialise();
+}
 
 void GameObjectManager::initialise()
 {
     //gameObjects = LinkedList<GameObject>();
-    isInitialised = true;
 }
 
 void GameObjectManager::deInitialise()
 {
-    for(int i = 0; i < gameObjects.getLength(); ++i)
-    {
-        delete gameObjects.getAtIndex(i);
-    }
+    gameObjects.clear();
+    //for(int i = 0; i < gameObjects.getLength(); ++i)
+    //{
+        //delete gameObjects.getAtIndex(i);
+    //}
 }
 
 void GameObjectManager::addObject(GameObject* object)

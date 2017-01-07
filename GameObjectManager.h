@@ -9,17 +9,19 @@
 class GameObjectManager
 {
 private:
-    static bool isInitialised;
-    static LinkedList<GameObject*> gameObjects;
+    LinkedList<GameObject*> gameObjects;
+
+    void initialise();
+    void deInitialise();
 
 public:
-    static void initialise();
-    static void deInitialise();
-    static void addObject(GameObject* object);
-    static GameObject* getObjectByIndex(unsigned int index);
-    static bool collision(const GameObject& objA, const GameObject& objB);
+    GameObjectManager();
+    ~GameObjectManager();
+    void addObject(GameObject* object);
+    GameObject* getObjectByIndex(unsigned int index);
+    bool collision(const GameObject& objA, const GameObject& objB);
 
-    static int getNumObjects();
+    int getNumObjects();
 };
 
 #endif
